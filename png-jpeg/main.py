@@ -1,8 +1,8 @@
 from PIL import Image
 import os
 
-input_folder = "/path/to/png/folder/"
-output_folder = "/path/to/jpg/folder/"
+input_folder = "C:/Users/legog/Downloads/background_upscayled/61-80"
+output_folder = "C:/Users/legog/Downloads/background_upscayled/61-80.jpeg"
 
 for filename in os.listdir(input_folder):
     if filename.endswith(".png"):
