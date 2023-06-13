@@ -1,5 +1,8 @@
 import os
+<<<<<<< HEAD
 import shutil
+=======
+>>>>>>> 297be7e (Password generator)
 import tkinter as tk
 from tkinter import filedialog
 import zipfile
@@ -16,7 +19,10 @@ def create_image_archives(source_folder, destination_folder, max_archive_size):
     file_list = []
     total_size = 0
     archive_count = 1
+<<<<<<< HEAD
     archive_size = 0
+=======
+>>>>>>> 297be7e (Password generator)
 
     # Получение списка jpg-файлов в указанной папке
     for root, dirs, files in os.walk(source_folder):
@@ -30,6 +36,7 @@ def create_image_archives(source_folder, destination_folder, max_archive_size):
     file_list.sort(key=lambda x: x[1])
 
     # Создание и заполнение архивов
+<<<<<<< HEAD
     for file_path, file_size in file_list:
         if total_size + file_size > max_archive_size or archive_size == 0:
             # Создание нового архива
@@ -37,13 +44,30 @@ def create_image_archives(source_folder, destination_folder, max_archive_size):
             with zipfile.ZipFile(archive_path, "w", zipfile.ZIP_DEFLATED) as archive:
                 archive_size = 0
                 archive_count += 1
+=======
+    archive_path = os.path.join(destination_folder, f"archive{archive_count}.zip")
+    archive = zipfile.ZipFile(archive_path, "w", zipfile.ZIP_DEFLATED)
+    for file_path, file_size in file_list:
+        if total_size + file_size > max_archive_size:
+            archive.close()
+            archive_count += 1
+            archive_path = os.path.join(destination_folder, f"archive{archive_count}.zip")
+            archive = zipfile.ZipFile(archive_path, "w", zipfile.ZIP_DEFLATED)
+            total_size = 0
+>>>>>>> 297be7e (Password generator)
 
         # Добавление файла в текущий архив
         archive.write(file_path, os.path.basename(file_path))
         total_size += file_size
+<<<<<<< HEAD
         archive_size += file_size
 
     print(f"Создано {archive_count - 1} архив(ов).")
+=======
+
+    archive.close()
+    print(f"Создано {archive_count} архив(ов).")
+>>>>>>> 297be7e (Password generator)
 
 
 # Выбор исходной папки через диалоговое окно
@@ -56,7 +80,11 @@ if source_folder:
 
     # Проверка, была ли выбрана папка назначения
     if destination_folder:
+<<<<<<< HEAD
         max_archive_size = 19999 * 1024  # 19999 килобайт в байтах
+=======
+        max_archive_size = 20000 * 1024  # 20000 килобайт в байтах
+>>>>>>> 297be7e (Password generator)
         create_image_archives(source_folder, destination_folder, max_archive_size)
     else:
         print("Папка назначения не выбрана.")

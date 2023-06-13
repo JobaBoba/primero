@@ -2,13 +2,9 @@ import os
 from tkinter import Tk, filedialog
 from PIL import Image
 
-def convert_images(source_folder, export_folder):
-    # Создаем целевую папку для экспорта, если она не существует
+def convert_images(source_folder, export_folder):    # Создаем целевую папку для экспорта, если она не существует
     if not os.path.exists(export_folder):
         os.makedirs(export_folder)
-    else:
-        print("Такая папка уже существует. Выберите другую.")
-        return
 
     # Получаем список файлов в исходной папке
     file_list = os.listdir(source_folder)
@@ -21,11 +17,11 @@ def convert_images(source_folder, export_folder):
             # Создаем новое имя файла и сохраняем его в папке для экспорта
             new_file_name = file_name.replace('.png', '.jpg')
             export_path = os.path.join(export_folder, new_file_name)
-            image.save(export_path, 'JPEG', quality=60)
+            image.save(export_path, 'JPEG', quality=80)
 
     print("Конвертация завершена!")
 
-# Инициализация окна выбора папок с использованием Tkinter
+# Инициализация окна выбора папки с использованием Tkinter
 root = Tk()
 root.withdraw()
 
