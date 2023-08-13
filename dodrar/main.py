@@ -1,36 +1,45 @@
-import PySimpleGUI as sg
-import patoolib
-import os
+import tkinter as tk
+from tkinter import filedialog
+import subprocess
 
-sg.theme('DefaultNoMoreNagging')  # Выбор темы оформления
+def choose_archive():
+    root = tk.Tk()
+    root.withdraw()  # Скрыть основное окно Tkinter
 
-layout = [
-    [sg.Text('Select a RAR archive to extract')],
-    [sg.InputText(key='archive_path'), sg.FileBrowse(file_types=(('RAR Files', '*.rar'),))],
-    [sg.Text('Select the output folder')],
-    [sg.InputText(key='output_folder'), sg.FolderBrowse()],
-    [sg.Button('Extract'), sg.Button('Exit')],
-    [sg.ProgressBar(100, orientation='h', size=(20, 20), key='progress')],
-]
+    archive_path = filedialog.askopenfilename(
+        title="Выберите архив для разархивации",
+        filetypes=(("RAR архивы", "*.rar"), ("Все файлы", "*.*"))
+    )
 
-window = sg.Window('RAR Archive Extractor', layout)
+    return archive_path
 
-while True:
-    event, values = window.read()
+def choose_extraction_path():
+    root = tk.Tk()
+    root.withdraw()
 
-    if event == sg.WINDOW_CLOSED or event == 'Exit':
-        break
-    elif event == 'Extract':
-        archive_path = values['archive_path']
-        output_folder = values['output_folder']
+    extraction_path = filedialog.askdirectory(
+        title="Выберите папку для разархивации"
+    )
 
-        if archive_path and output_folder:
-            try:
-                progress_bar = window['progress']
-                progress_bar.UpdateBar(0)
-                patoolib.extract_archive(archive_path, outdir=output_folder, interactive=False)
-                sg.popup('Extraction Successful', 'Archive extracted successfully!')
-            except Exception as e:
-                sg.popup_error(f'Extraction Error: {str(e)}')
+    return extraction_path
 
-window.close()
+def unrar_archive(archive_path, extraction_path):
+    cmd = ["unrar", "x", archive_path, extraction_path]
+    subprocess.run(cmd)
+
+def main():
+    archive_path = choose_archive()
+    if not archive_path:
+        print("Выбор архива отменен.")
+        return
+
+    extraction_path = choose_extraction_path()
+    if not extraction_path:
+        print("Выбор папки для разархивации отменен.")
+        return
+
+    unrar_archive(archive_path, extraction_path)
+    print("Архив успешно разархивирован.")
+
+if __name__ == "__main__":
+    main()
